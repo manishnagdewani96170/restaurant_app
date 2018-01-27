@@ -21,11 +21,11 @@ module API
 
         # global exception handler, used for error notifications
         rescue_from ActiveRecord::RecordNotFound do |e|
-          error_response(message: e.message, status: 404)
+          error!(message: e.message, status: 404)
         end
 
         rescue_from Grape::Exceptions::ValidationErrors do |e|
-          error!({ messages: e.full_messages }, 406)
+          error!({ messages: e.full_messages }, status: 406)
         end
       end
     end

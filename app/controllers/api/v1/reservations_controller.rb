@@ -14,16 +14,16 @@ module API
             reservation_time > Time.parse(restaurant.evening_start_shift) && reservation_time < Time.parse(restaurant.evening_end_shift)          
               return true
             else
-              error!('Please select valid reservation time', status: 406)
+              throw :error, message: 'Please select valid reservation time', status: 406 
             end    
           end
 
           def check_guest_count 
             table = Table.find(permitted_params[:reservation][:table_id])
-            if (table.minimum_count..table.maximum_count).include?(permitted_params[:reservation][:guest_count])
+            if (table.minimum_count..table.maximum_count).include?(permitted_params[:reservation][:guest_count].to_i)
               return true
             else
-              error!('Please select valid guest count', status: 406)  
+              throw :error, message: 'Please select valid guest count', status: 406 
             end  
           end  
         end  
